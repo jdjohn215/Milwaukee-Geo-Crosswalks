@@ -4,6 +4,8 @@ blocks.to.neighborhoods <- read_csv("Crosswalks/2010CensusBlocks_to_Neighborhood
 blocks.to.wards <- read_csv("Crosswalks/2010CensusBlocks_to_2018VotingWards.csv")
 tracts.to.neighborhoods <- read_csv("Crosswalks/2017CensusTracts_to_Neighborhoods.csv")
 wards.to.neighborhoods <- read_csv("Crosswalks/2018VotingWards_to_Neighborhoods.csv")
+blockgroups.to.wards <- read_csv("Crosswalks/2017CensusBlockGroups_to_2018VotingWards.csv")
+blockgroups.to.neighborhood <- read_csv("Crosswalks/2017CensusBlockGroups_to_Neighborhoods.csv")
 
 explore.blocks.to.neighborhoods <- blocks.to.neighborhoods %>%
   mutate(group = "100%",
@@ -59,7 +61,6 @@ explore.tracts.to.neighborhoods <- tracts.to.neighborhoods %>%
   summarise(bedrooms = sum(bedrooms)/first(total.bedrooms)) %>%
   rename(`tracts to neighborhoods` = bedrooms)
 
-
 explore.wards.to.neighborhoods <- wards.to.neighborhoods %>%
   mutate(group = "100%",
          group = replace(group, pct.of.ward < 1, "98-100"),
@@ -77,10 +78,46 @@ explore.wards.to.neighborhoods <- wards.to.neighborhoods %>%
   summarise(bedrooms = sum(bedrooms)/first(total.bedrooms)) %>%
   rename(`wards to neighborhoods` = bedrooms)
 
+explore.blockgroups.to.wards <- blockgroups.to.wards %>%
+  mutate(group = "100%",
+         group = replace(group, pct.of.blockgroup < 1, "98-100"),
+         group = replace(group, pct.of.blockgroup < 0.98, "90-98"),
+         group = replace(group, pct.of.blockgroup < 0.9, "80-90"),
+         group = replace(group, pct.of.blockgroup < 0.8, "70-80"),
+         group = replace(group, pct.of.blockgroup < 0.7, "60-70"),
+         group = replace(group, pct.of.blockgroup < 0.6, "50-60"),
+         group = replace(group, pct.of.blockgroup < 0.5, "less than 50"),
+         group = factor(group, levels = c("100%", "98-100", "90-98",
+                                          "80-90", "70-80", "60-70",
+                                          "50-60", "less than 50"))) %>%
+  mutate(total.bedrooms = sum(bedrooms)) %>%
+  group_by(group) %>%
+  summarise(bedrooms = sum(bedrooms)/first(total.bedrooms)) %>%
+  rename(`blockgroups to wards` = bedrooms)
+
+explore.blockgroups.to.neighborhood <- blockgroups.to.neighborhood %>%
+  mutate(group = "100%",
+         group = replace(group, pct.of.blockgroup < 1, "98-100"),
+         group = replace(group, pct.of.blockgroup < 0.98, "90-98"),
+         group = replace(group, pct.of.blockgroup < 0.9, "80-90"),
+         group = replace(group, pct.of.blockgroup < 0.8, "70-80"),
+         group = replace(group, pct.of.blockgroup < 0.7, "60-70"),
+         group = replace(group, pct.of.blockgroup < 0.6, "50-60"),
+         group = replace(group, pct.of.blockgroup < 0.5, "less than 50"),
+         group = factor(group, levels = c("100%", "98-100", "90-98",
+                                          "80-90", "70-80", "60-70",
+                                          "50-60", "less than 50"))) %>%
+  mutate(total.bedrooms = sum(bedrooms)) %>%
+  group_by(group) %>%
+  summarise(bedrooms = sum(bedrooms)/first(total.bedrooms)) %>%
+  rename(`blockgroups to neighborhoods` = bedrooms)
+
 explore.accuracy <- full_join(explore.blocks.to.neighborhoods,
                               explore.blocks.to.wards) %>%
   full_join(explore.tracts.to.neighborhoods) %>%
   full_join(explore.wards.to.neighborhoods) %>%
+  full_join(explore.blockgroups.to.wards) %>%
+  full_join(explore.blockgroups.to.neighborhood)
   pivot_longer(cols = -group) %>%
   mutate(value = value*100,
          value = replace(value, is.na(value), 0)) %>%
