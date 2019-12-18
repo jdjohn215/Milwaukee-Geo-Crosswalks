@@ -122,9 +122,9 @@ blocks.to.neighborhoods %>%
 
 ## How accurate is it?
 
-**blocks to neighborhoods** The smaller the data source geography, the
-more likely that it will fit entirely within the target geography. The
-table below shows how each crosswalk performs.
+The smaller the data source geography, the more likely that it will fit
+entirely within the target geography. The table below shows how each
+crosswalk performs.
 
   - 99.4% of Census blocks fell entirely within a single neighborhood.
   - 99.9% of Census blocks fell entirely within a single ward.
