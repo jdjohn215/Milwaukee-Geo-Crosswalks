@@ -16,7 +16,7 @@ median.age <- readRDS("SourceData/CensusBlocks2010_MedianAge.rds") %>%
   mutate(age = replace(age, age == 0, NA))
 total.pop <- readRDS("SourceData/CensusBlocks2010_TotalPop.rds")
 explore.accuracy <- readRDS("SourceData/AccuracyComparison.rds") %>%
-  rename(`highest match` = group)
+  rename(`geo overlap` = group)
 ```
 
 # Milwaukee-Geo-Crosswalks
@@ -71,12 +71,12 @@ blocks.to.neighborhoods %>%
 ```
 
 ## How accurate is it?
-The smaller the data source geography, the more likely that it will fit entirely within the target geography. The table below shows how each crosswalk performs.
+The smaller the data source geography, the more likely that it will fit entirely within the target geography. The table below shows how each crosswalk performs. Each cell shows the percent of bedrooms matched at the degree of overlap indicated in the first column
 
-* 99.4% of Census blocks fell entirely within a single neighborhood.
-* 99.9% of Census blocks fell entirely within a single ward.
-* Tracts are much more likely to straddle geographies. Just 30% fell within a single neighborhood. 10.5% of tracts were so divided that the largest tract/neighborhood combo still made up less than 50% of the tract.
-* Wards can be merged to neighborhoods more accurately than tracts, but less accurately than blocks. 41% of wards lie entirely within a single neighborhood.
+* 99.1% of bedrooms in Census blocks fell entirely within a single neighborhood.
+* 99.9% of bedrooms Census blocks fell entirely within a single ward.
+* Tracts are much more likely to straddle geographies. Just 27.8% of tract-bedrooms fell within a single neighborhood. 31.5% of bedrooms in tracts are assigned to a  neighborhood with less than 50% overlap.
+* Wards can be merged to neighborhoods more accurately than tracts, but less accurately than blocks. 37.1% of wards lie entirely within a single neighborhood.
 
 ```{r, echo=FALSE}
 explore.accuracy %>%

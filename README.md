@@ -124,26 +124,27 @@ blocks.to.neighborhoods %>%
 
 The smaller the data source geography, the more likely that it will fit
 entirely within the target geography. The table below shows how each
-crosswalk performs.
+crosswalk performs. Each cell shows the percent of bedrooms matched at
+the degree of overlap indicated in the first column
 
-  - 99.4% of Census blocks fell entirely within a single neighborhood.
-  - 99.9% of Census blocks fell entirely within a single ward.
-  - Tracts are much more likely to straddle geographies. Just 30% fell
-    within a single neighborhood. 10.5% of tracts were so divided that
-    the largest tract/neighborhood combo still made up less than 50% of
-    the tract.
+  - 99.1% of bedrooms in Census blocks fell entirely within a single
+    neighborhood.
+  - 99.9% of bedrooms Census blocks fell entirely within a single ward.
+  - Tracts are much more likely to straddle geographies. Just 27.8% of
+    tract-bedrooms fell within a single neighborhood. 31.5% of bedrooms
+    in tracts are assigned to a neighborhood with less than 50% overlap.
   - Wards can be merged to neighborhoods more accurately than tracts,
-    but less accurately than blocks. 41% of wards lie entirely within a
-    single
+    but less accurately than blocks. 37.1% of wards lie entirely within
+    a single
 neighborhood.
 
-| highest match | blocks to neighborhoods | blocks to wards | tracts to neighborhoods | wards to neighborhoods |
-| :------------ | ----------------------: | --------------: | ----------------------: | ---------------------: |
-| 100%          |                   99.40 |           99.92 |                   30.14 |                  41.05 |
-| 98-100        |                    0.03 |            0.00 |                    5.26 |                   4.32 |
-| 90-98         |                    0.14 |            0.03 |                    6.70 |                   5.86 |
-| 80-90         |                    0.06 |            0.00 |                    5.26 |                   8.02 |
-| 70-80         |                    0.11 |            0.03 |                    8.61 |                   9.88 |
-| 60-70         |                    0.14 |            0.02 |                    9.09 |                  14.51 |
-| 50-60         |                    0.12 |            0.00 |                   24.40 |                  10.80 |
-| less than 50  |                    0.00 |            0.00 |                   10.53 |                   5.56 |
+| geo overlap  | blocks to neighborhoods | blocks to wards | tracts to neighborhoods | wards to neighborhoods |
+| :----------- | ----------------------: | --------------: | ----------------------: | ---------------------: |
+| 100%         |                   99.13 |           99.93 |                   27.83 |                  37.14 |
+| 98-100       |                    0.08 |            0.00 |                    5.96 |                   4.95 |
+| 90-98        |                    0.21 |            0.04 |                    4.58 |                   4.76 |
+| 80-90        |                    0.09 |            0.00 |                    4.55 |                   6.96 |
+| 70-80        |                    0.15 |            0.00 |                    7.40 |                   8.79 |
+| 60-70        |                    0.07 |            0.01 |                    6.12 |                   9.61 |
+| 50-60        |                    0.09 |            0.00 |                   12.49 |                   5.98 |
+| less than 50 |                    0.18 |            0.01 |                   31.09 |                  21.80 |
