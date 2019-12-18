@@ -1,5 +1,8 @@
 ---
-output: github_document
+output:
+  github_document:
+    toc: true
+    toc_depth: 2
 ---
 
 ```{r setup, include=FALSE}
@@ -12,6 +15,8 @@ blocks.to.neighborhoods <- read_csv("Crosswalks/2010CensusBlocks_to_Neighborhood
 median.age <- readRDS("SourceData/CensusBlocks2010_MedianAge.rds") %>%
   mutate(age = replace(age, age == 0, NA))
 total.pop <- readRDS("SourceData/CensusBlocks2010_TotalPop.rds")
+explore.accuracy <- readRDS("SourceData/AccuracyComparison.rds") %>%
+  rename(`highest match` = group)
 ```
 
 # Milwaukee-Geo-Crosswalks
@@ -64,3 +69,19 @@ blocks.to.neighborhoods %>%
   summarise(median_age = weighted.mean(x = age, w = pct.of.neighborhood, na.rm = T)) %>%
   arrange(desc(median_age))
 ```
+
+## How accurate is it?
+
+**blocks to neighborhoods**
+The smaller the data source geography, the more likely that it will fit entirely within the target geography. The table below shows how each crosswalk performs.
+
+* 99.4% of Census blocks fell entirely within a single neighborhood.
+* 99.9% of Census blocks fell entirely within a single ward.
+* Tracts are much more likely to straddle geographies. Just 30% fell within a single neighborhood. 10.5% of tracts were so divided that the largest tract/neighborhood combo still made up less than 50% of the tract.
+* Wards can be merged to neighborhoods more accurately than tracts, but less accurately than blocks. 41% of wards lie entirely within a single neighborhood.
+
+```{r, echo=FALSE}
+explore.accuracy %>%
+  knitr::kable(digits = 2)
+```
+

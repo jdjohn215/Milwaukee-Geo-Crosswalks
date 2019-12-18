@@ -119,3 +119,31 @@ blocks.to.neighborhoods %>%
     ##  9 GOLDEN GATE            47.4
     ## 10 COPERNICUS PARK        46.6
     ## # … with 176 more rows
+
+## How accurate is it?
+
+**blocks to neighborhoods** The smaller the data source geography, the
+more likely that it will fit entirely within the target geography. The
+table below shows how each crosswalk performs.
+
+  - 99.4% of Census blocks fell entirely within a single neighborhood.
+  - 99.9% of Census blocks fell entirely within a single ward.
+  - Tracts are much more likely to straddle geographies. Just 30% fell
+    within a single neighborhood. 10.5% of tracts were so divided that
+    the largest tract/neighborhood combo still made up less than 50% of
+    the tract.
+  - Wards can be merged to neighborhoods more accurately than tracts,
+    but less accurately than blocks. 41% of wards lie entirely within a
+    single
+neighborhood.
+
+| highest match | blocks to neighborhoods | blocks to wards | tracts to neighborhoods | wards to neighborhoods |
+| :------------ | ----------------------: | --------------: | ----------------------: | ---------------------: |
+| 100%          |                   99.40 |           99.92 |                   30.14 |                  41.05 |
+| 98-100        |                    0.03 |            0.00 |                    5.26 |                   4.32 |
+| 90-98         |                    0.14 |            0.03 |                    6.70 |                   5.86 |
+| 80-90         |                    0.06 |            0.00 |                    5.26 |                   8.02 |
+| 70-80         |                    0.11 |            0.03 |                    8.61 |                   9.88 |
+| 60-70         |                    0.14 |            0.02 |                    9.09 |                  14.51 |
+| 50-60         |                    0.12 |            0.00 |                   24.40 |                  10.80 |
+| less than 50  |                    0.00 |            0.00 |                   10.53 |                   5.56 |
