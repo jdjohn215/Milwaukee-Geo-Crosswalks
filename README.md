@@ -14,6 +14,10 @@ census tracts and neighborhood.
     neighborhoods](https://github.com/jdjohn215/Milwaukee-Geo-Crosswalks/blob/master/Crosswalks/2017CensusTracts_to_Neighborhoods.csv)
   - [Voting wards (2018) to
     neighborhoods](https://github.com/jdjohn215/Milwaukee-Geo-Crosswalks/blob/master/Crosswalks/2018VotingWards_to_Neighborhoods.csv)
+  - [Census block groups (2017) to
+    neighborhoods](https://github.com/jdjohn215/Milwaukee-Geo-Crosswalks/blob/master/Crosswalks/2017CensusBlocks_to_Neighborhoods.csv)
+  - [Census block groups (2017) to voting wards
+    (2018)](https://github.com/jdjohn215/Milwaukee-Geo-Crosswalks/blob/master/Crosswalks/2017CensusBlockGroups_to_2018VotingWards.csv)
 
 ## What is this?
 
@@ -21,7 +25,8 @@ When working with spatial data, the info we want is often available for
 a different kind of geography than the areas we care about. For example,
 some Census tracts are located entirely within neighborhoods, but others
 straddle two or more. The crosswalk files I’ve provided above allow data
-users to conveniently (dis)aggregate data from geography into another.
+users to conveniently (dis)aggregate data from one geography into
+another.
 
 ## Method
 
@@ -37,11 +42,11 @@ geography A which are also in geography B.
 
 Here is what the crosswalks look like.
 
-There is 1 row for every target geography TO data geography
-combination–in this case Census blocks to neighborhoods. The first
-line tells us that there are 154 bedrooms in both Alcott Park and Census
-block 550790195001005. These 154 bedrooms make up 100% of the bedrooms
-in the Census block, and they make up 9.4% of the bedrooms in Alcott
+There is 1 row for every target geography/data geography combination–in
+this case Census blocks to neighborhoods. The first line tells us that
+there are 154 bedrooms in both Alcott Park and Census block
+550790195001005. These 154 bedrooms make up 100% of the bedrooms in the
+Census block, and they make up 9.4% of the bedrooms in Alcott
 Park.
 
 | neighborhood | block           | bedrooms | pct.of.block | pct.of.neighborhood |
@@ -135,16 +140,19 @@ the degree of overlap indicated in the first column
     in tracts are assigned to a neighborhood with less than 50% overlap.
   - Wards can be merged to neighborhoods more accurately than tracts,
     but less accurately than blocks. 37.1% of wards lie entirely within
-    a single
-neighborhood.
+    a single neighborhood.
+  - Blockgroups fit within neighborhoods considerably better than tracts
+    do. Of course, block group data also comes with a considerably
+    higher margin of
+error.
 
-| geo overlap  | blocks to neighborhoods | blocks to wards | tracts to neighborhoods | wards to neighborhoods |
-| :----------- | ----------------------: | --------------: | ----------------------: | ---------------------: |
-| 100%         |                   99.13 |           99.93 |                   27.83 |                  37.14 |
-| 98-100       |                    0.08 |            0.00 |                    5.96 |                   4.95 |
-| 90-98        |                    0.21 |            0.04 |                    4.58 |                   4.76 |
-| 80-90        |                    0.09 |            0.00 |                    4.55 |                   6.96 |
-| 70-80        |                    0.15 |            0.00 |                    7.40 |                   8.79 |
-| 60-70        |                    0.07 |            0.01 |                    6.12 |                   9.61 |
-| 50-60        |                    0.09 |            0.00 |                   12.49 |                   5.98 |
-| less than 50 |                    0.18 |            0.01 |                   31.09 |                  21.80 |
+| geo overlap  | blocks to neighborhoods | blocks to wards | tracts to neighborhoods | wards to neighborhoods | blockgroups to wards | blockgroups to neighborhoods |
+| :----------- | ----------------------: | --------------: | ----------------------: | ---------------------: | -------------------: | ---------------------------: |
+| 100%         |                   99.13 |           99.93 |                   27.83 |                  37.14 |                35.53 |                        60.82 |
+| 98-100       |                    0.08 |            0.00 |                    5.96 |                   4.95 |                 2.55 |                         4.34 |
+| 90-98        |                    0.21 |            0.04 |                    4.58 |                   4.76 |                 4.98 |                         2.87 |
+| 80-90        |                    0.09 |            0.00 |                    4.55 |                   6.96 |                 5.06 |                         5.00 |
+| 70-80        |                    0.15 |            0.00 |                    7.40 |                   8.79 |                 8.69 |                         4.34 |
+| 60-70        |                    0.07 |            0.01 |                    6.12 |                   9.61 |                 8.60 |                         4.90 |
+| 50-60        |                    0.09 |            0.00 |                   12.49 |                   5.98 |                10.05 |                         5.96 |
+| less than 50 |                    0.18 |            0.01 |                   31.09 |                  21.80 |                24.54 |                        11.77 |
