@@ -25,4 +25,28 @@ blocks.to.neighborhoods <- parcels.intersected %>%
   ungroup() %>%
   mutate(prop_of_block = (bedrooms/block_total))
 
-write_csv(blocks.to.neighborhoods, "Crosswalks/2020CensusBlocks_to_Neighborhoods.csv")
+# intersect by centroid
+unincluded.blocks <- blocks.2020 %>%
+  filter(! block %in% blocks.to.neighborhoods$block) %>%
+  mutate(geometry = st_centroid(geometry)) %>%
+  select(block, geometry) %>%
+  st_intersection(neighborhoods) %>%
+  st_set_geometry(NULL) %>%
+  mutate(prop_of_block = 1)
+
+unincluded.blocks2 <- blocks.2020 %>%
+  filter(! block %in% blocks.to.neighborhoods$block,
+         ! block %in% unincluded.blocks$block,
+         pop > 0) %>%
+  select(block)
+st_nearest_feature(unincluded.blocks2, neighborhoods)
+unincluded.blocks2.1 <- unincluded.blocks2 %>%
+  mutate(neighborhood = c(neighborhoods$neighborhood[65], neighborhoods$neighborhood[127])) %>%
+  mutate(prop_of_block = 1)
+
+blocks.to.neighborhoods2 <- blocks.to.neighborhoods %>%
+  bind_rows(unincluded.blocks, unincluded.blocks2.1)
+blocks.2020 %>%
+  filter(block %in% blocks.to.neighborhoods2$block) %>% pull(pop) %>% sum()
+
+write_csv(blocks.to.neighborhoods2, "Crosswalks/2020CensusBlocks_to_Neighborhoods.csv")
